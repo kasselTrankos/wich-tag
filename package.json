@@ -24,9 +24,10 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.2"
+    
   },
   "homepage": "https://github.com/kasselTrankos/wich-tag#readme",
   "dependencies": {
-    "utf8": "^3.0.0"
+    "unescape": "^1.0.1"
   }
 }
