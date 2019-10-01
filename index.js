@@ -1,7 +1,7 @@
 import {get} from './src/read';
 import { exec } from 'child_process';
 import decode from 'unescape';
-
+const compose = (...fns) => x => fns.reduceRight((x, f) => f(x), x)
 const [id, dest = '.'] = process.argv.slice(2);
 var Left = function(x) {
   this.__value = x;
@@ -49,11 +49,11 @@ IO.prototype.map = function(f) {
   f(this.value);
   return new IO(this.value);
 };
+const prop = key => obj => obj[key];
 
 const getTitle = async id => {
   const clean = str => str.split('-').slice(0, -1).join('-');
   const title = html => html.match(/<title[^>]*>([^<]+)<\/title>/);
-  const prop = key => obj => obj[key];
   const url = Maybe.of(id).map(x => `https://www.youtube.com/watch?v=${x}`);
   const html = url.isNothing()
     ? Left.of('')
@@ -70,10 +70,13 @@ const init = async id => {
   '--output', `"${dest}/${title}[%(id)s].%(ext)s"`,
   '--add-metadata --metadata-from-title', `"%(artist)s - %(title)s %(track)s" ${id}`]
   const q = `youtube-dl ${yParams.join(' ')}`;
+  const message = m => m === 0
+    ? Right.of('Saved file in destination')
+    : Left.of(`Give me the error: ${m}`)
+  // (0)
   const io_exec = new IO(exec(q));
-  
   io_exec.map(data(x => console.log(x)))
-    .map(close(e => console.log(`Saved file into destination ${e}`)));
+    .map(close(compose(console.log, prop('__value'), message)));
     
 }
 
