@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "load": "./node_modules/.bin/babel-node index.js"
+    "save": "./node_modules/.bin/babel-node index.js"
   },
   "repository": {
     "type": "git",
@@ -24,10 +24,10 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.2"
-    
   },
   "homepage": "https://github.com/kasselTrankos/wich-tag#readme",
   "dependencies": {
+    "sanctuary": "^2.0.0",
     "unescape": "^1.0.1"
   }
 }
